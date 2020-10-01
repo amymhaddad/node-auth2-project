@@ -8,7 +8,7 @@ import Header from "./common/Header"
 function App() {
   return (
     <div>
-        <Header />`≠
+        <Header />
         <Route to="/signup" exact component={SignUp} />
         <Route to="/signin" exact component={SignIn} />
         <Route to="/users" exact component={Users} />
