@@ -1,6 +1,5 @@
 
 import React from 'react';
-import SignUp from "./SignUp"
 
 //Key point: update value and add a change handler to prevent controlled componetns
 function SignUpForm(props) {
@@ -9,13 +8,12 @@ function SignUpForm(props) {
 
     return (
         <>
-        <form>
+        <form onSubmit={props.onSubmit}>
         <div className="form-group">
             <label>Username</label>
                 <input
                     type="text"
                     name="username"
-                    className="form-control"
                     value={username}
                     onChange={props.onChange}
                 />
@@ -23,8 +21,7 @@ function SignUpForm(props) {
             <label>Password</label>
                 <input
                     type="text"
-                    name="username"
-                    className="form-control"
+                    name="password"
                     value={password}
                     onChange={props.onChange}
                 />
@@ -32,14 +29,17 @@ function SignUpForm(props) {
             <label>Department</label>
                 <input
                     type="text"
-                    name="username"
-                    className="form-control"
+                    name="department"
                     value={department}
                     onChange={props.onChange}
                 />
         </div>
     </form>
-    <input type="submit" value="Save" className="btn btn-primary" />
+    <input 
+        type="submit" 
+        value="Save" 
+        className="btn btn-primary" 
+    />
     </>
     )
 }

@@ -14,10 +14,36 @@ function SignUp() {
     function handleInputChange(event) {
         const newUser = {...user, [event.target.name]: event.target.value}
         addUser(newUser)
+       
+    }
+
+    function clearForm() {
+        addUser ({
+            username: "",
+            password: "",
+            department: ""
+        })
     }
 
     function handleSubmit(event) {
-        
+        event.preventDefault()
+       
+        const url = "http://localhost:3000/api/register"
+
+        axios.post({
+            method: "post",
+            url: url,
+            data: user,
+            headers: {
+               'Content-Type': 'application/json'
+            } 
+        })
+        .then((response) => {
+            debugger
+            console.log(response.data)
+        })
+        .then(() => clearForm())
+        .catch((err)=> console.log(err))
     }
 
     return (
