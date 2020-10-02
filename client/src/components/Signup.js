@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Header from "../common/Header"
 import SignUpForm from "./SignUpForm"
 import { useHistory } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+  
 
 function SignUp() {
     let history = useHistory();
@@ -42,7 +45,7 @@ function SignUp() {
         })
         .then(function(response)  {
             if (response.status === 200)  {
-               console.log("HERE", response.data)
+                toast.success("Success!")
                 history.push("/signin" );
             }
             
