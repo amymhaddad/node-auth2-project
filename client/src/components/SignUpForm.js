@@ -13,7 +13,7 @@ function SignUpForm(props) {
             <label>Username</label>
                 <input
                     type="text"
-                    name="username"
+                    name="username" 
                     value={username}
                     onChange={props.onChange}
                 />

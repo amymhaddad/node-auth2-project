@@ -18,22 +18,23 @@ function SignIn() {
     }
 
 
-
+    //The problem is with the loginRouter: it takes a username ONLY, which I'm trying to pass down to
     function handleSubmit(event) {
         event.preventDefault()
-
-        const url = "http://localhost:3000/api/login"
+        // debugger
+        
+        let url = "http://localhost:3000/api/login"
         axios({
             method: "post",
             url: url,
             data: userCredentials,
+            // data: userCredentials.username,
             withCredentials: true,
             headers: { 'Content-Type': 'application/json' }
            })
         .then((response) => {
             debugger
         })
-
         .catch(function(error) {
             const message  = error.response.data.error
             const status = error.response.stats
