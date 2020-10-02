@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../common/Header"
 import SignUpForm from "./SignUpForm"
-
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
+    let history = useHistory();
+
     const [user, addUser] = useState({
         username: "",
         password: "",
@@ -14,7 +16,6 @@ function SignUp() {
     function handleInputChange(event) {
         const newUser = {...user, [event.target.name]: event.target.value}
         addUser(newUser)
-       
     }
 
     function clearForm() {
@@ -23,14 +24,16 @@ function SignUp() {
             password: "",
             department: ""
         })
+        
     }
 
     function handleSubmit(event) {
-        event.preventDefault()
-       
-        const url = "http://localhost:3000/api/register"
 
-        axios.post({
+        event.preventDefault()
+        
+        const url = "http://localhost:3000/api/register"
+        console.log("user", user)
+        axios({
             method: "post",
             url: url,
             data: user,
@@ -38,12 +41,16 @@ function SignUp() {
                'Content-Type': 'application/json'
             } 
         })
-        .then((response) => {
-            debugger
+        .then(function(response)  {
+            if (response.status === 200)  history.push("/users");
+    
             console.log(response.data)
         })
         .then(() => clearForm())
-        .catch((err)=> console.log(err))
+        .catch(function(error)  {
+            debugger
+        })
+
     }
 
     return (

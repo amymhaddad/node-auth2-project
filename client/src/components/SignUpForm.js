@@ -34,12 +34,13 @@ function SignUpForm(props) {
                     onChange={props.onChange}
                 />
         </div>
-    </form>
-    <input 
-        type="submit" 
-        value="Save" 
-        className="btn btn-primary" 
-    />
+  
+        <input 
+            type="submit" 
+            value="submit" 
+            className="btn btn-primary" 
+        />
+      </form>
     </>
     )
 }
