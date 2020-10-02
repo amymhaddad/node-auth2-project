@@ -32,7 +32,6 @@ function SignUp() {
         event.preventDefault()
         
         const url = "http://localhost:3000/api/register"
-        console.log("user", user)
         axios({
             method: "post",
             url: url,
@@ -42,13 +41,15 @@ function SignUp() {
             } 
         })
         .then(function(response)  {
-            if (response.status === 200)  history.push("/users");
-    
-            console.log(response.data)
+            if (response.status === 200)  {
+               console.log("HERE", response.data)
+                history.push("/signin" );
+            }
+            
         })
         .then(() => clearForm())
         .catch(function(error)  {
-            debugger
+            console.log("error", error)
         })
 
     }
@@ -69,3 +70,31 @@ function SignUp() {
 }
 
 export default SignUp
+
+//Tried to add another axios call to auto log in the user
+// .then(function(response)  {
+//     if (response.status === 200)  {
+//         const username = response.data.username
+//         const password = user.password
+//         const userCredentials = {username: username, password: password}
+//         debugger
+//         const url = "http://localhost:3000/api/login"
+//         axios({
+//             method: "post",
+//             url: url,
+//             data: userCredentials,
+//             headers: {
+//                'Content-Type': 'application/json'
+//             } 
+//         })
+//         .then(function(response) {
+//             debugger
+//             // console.log("HERE", response.data)
+//             // history.push("/users");
+//         })
+//     }
+    
+// })
+
+// If the user is created successfully, take the returned token, save it to the browser's local storage and redirect the user to the /users route, where they should see the list of users.
+//I don't create the token until the login page 
