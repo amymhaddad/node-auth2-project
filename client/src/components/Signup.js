@@ -5,10 +5,10 @@ import SignUpForm from "./SignUpForm"
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 
-  
 
 function SignUp() {
     let history = useHistory();
+    const [errors, setErrors] = useState({})
 
     const [user, addUser] = useState({
         username: "",
@@ -52,7 +52,13 @@ function SignUp() {
         })
         .then(() => clearForm())
         .catch(function(error)  {
-            console.log("error", error)
+            const message = error.response.data.error
+            const status = error.response.status
+            const userErrors = {
+                message: message, 
+                status: status
+            }
+            setErrors(userErrors)
         })
 
     }
@@ -67,6 +73,14 @@ function SignUp() {
                 onChange = {handleInputChange}
                 onSubmit = {handleSubmit}
             />
+
+        {errors && (
+            <div>
+                {errors.message} {"   "}
+                {errors.status}
+            </div>
+        )}
+
         </>
 
     )
