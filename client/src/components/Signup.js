@@ -5,6 +5,9 @@ import SignUpForm from "./SignUpForm"
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 
+//Get toast to work
+//Try redirect instead of push 
+
 
 function SignUp() {
     let history = useHistory();
@@ -47,8 +50,8 @@ function SignUp() {
             if (response.status === 200)  {
                 const token = response.data.token
                 localStorage.setItem("token", token)
-                // toast.success("Success!")
-                // history.push("/signin" );
+                toast.success("Success!")
+                history.push("/users" );
             }
             
         })
