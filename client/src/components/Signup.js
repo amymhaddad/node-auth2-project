@@ -45,8 +45,10 @@ function SignUp() {
         })
         .then(function(response)  {
             if (response.status === 200)  {
-                toast.success("Success!")
-                history.push("/signin" );
+                const token = response.data.token
+                localStorage.setItem("token", token)
+                // toast.success("Success!")
+                // history.push("/signin" );
             }
             
         })

@@ -9,9 +9,7 @@ const jwt = require('jsonwebtoken');
 function newToken(id) {
 	const userId = { userId: id}
 	return jwt.sign(userId, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1800s'})
-
 }
-
 
 registerRouter.post('/', [ verifyNewUserCredentials, handleErrors ], (req, res, next) => {
 	const { username, password, department } = req.body;
@@ -29,8 +27,8 @@ registerRouter.post('/', [ verifyNewUserCredentials, handleErrors ], (req, res, 
 			const addedUser = { username: newUser.username, department: newUser.department };
 
 			const token = newToken(newUser.id)
-			// return res.status(200).json({ token });			// 
-			return res.status(200).json(addedUser);
+			return res.status(200).json({ token, addedUser });			// 
+			// return res.status(200).json(addedUser);
 		})
 		.catch((err) => next(err));
 	 
