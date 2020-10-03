@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors')
 require('dotenv').config();
 
+console.log("Pcess", process.env.ACCESS_TOKEN_SECRET)
 const port = process.env.port || 3000;
 
 const bodyParser = require('body-parser');
