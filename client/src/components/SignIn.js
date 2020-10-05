@@ -4,7 +4,8 @@ import axios from "axios";
 import Header from "../common/Header"
 import SignInForm from "./SignInForm"
 import { useHistory } from "react-router-dom";
-import DisplayUsers from "./DisplayUsers"
+
+//Don't I need to extract the payload from the token 
 
 function SignIn() {
     let history = useHistory();
@@ -34,12 +35,14 @@ function SignIn() {
         .then((response) => {
             if (response.status === 200)  {
                 const token = response.data.token
+                // const token = response.data.token.split(".")[1]
                 localStorage.setItem("token", token)
                 // toast.success("Success!")
                 history.push("/users" );
             }
         })
         .catch(function(error) {
+            // debugger
             const message  = error.response.data.error
             const status = error.response.stats
             const userError = {
@@ -69,12 +72,6 @@ function SignIn() {
                 </div>
             )}
 
-             {/* {users.map(user => (
-                <DisplayUsers 
-                    id = {user.id}
-                    eachUser = {user.username}
-                />
-            ))} */}
         </>
 
     )

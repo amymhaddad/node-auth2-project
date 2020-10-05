@@ -49,6 +49,8 @@ function SignUp() {
         .then(function(response)  {
             if (response.status === 200)  {
                 const token = response.data.token
+                // const token = token.split(".")[1]
+                // debugger
                 localStorage.setItem("token", token)
                 toast.success("Success!")
                 history.push("/users" );

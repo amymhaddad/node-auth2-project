@@ -3,7 +3,7 @@ import axios from "axios";
 import DisplayUsers from "./DisplayUsers";
 import {getJwt} from "../helpers/jwt"
 import { useHistory } from "react-router-dom";
-
+import LogOut from "./LogOut"
 
 
 //Why only 1 person when I make the axios call?
@@ -11,15 +11,18 @@ import { useHistory } from "react-router-dom";
 //Need to send the user id via props so I can add it to teh useEffect function. Otherwise useEffect runs automatically wihtout adding my new data
 //ONly thing I can think of is to extract the token from jwt 
 function Users(props) {
+
     const history = useHistory();
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
 
 
     useEffect(() => {
+
         const jwt = getJwt()
+        console.log("JWT", jwt)
         if (!jwt) {
-            console.log("NO JWT")
+
             history.push("/signin")
         }
 
@@ -49,10 +52,13 @@ function Users(props) {
             setErrors(userErrors)
             localStorage.removeItem("token")
         })
+
     }, [])
 
-
-
+    function handleLogout(event) {
+        event.preventDefault()
+        localStorage.removeItem("token")
+    }
 
     return (
         <>
@@ -69,6 +75,10 @@ function Users(props) {
                     eachUser = {user.username}
                 />
             ))}
+
+            <LogOut 
+                onSubmit = {handleLogout}
+            />
         </>
     )
 
