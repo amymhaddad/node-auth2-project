@@ -4,6 +4,8 @@ import DisplayUsers from "./DisplayUsers";
 import {getJwt} from "../helpers/jwt"
 import { useHistory } from "react-router-dom";
 import LogOut from "./LogOut"
+import Header from "../common/Header"
+import { toast } from 'react-toastify';
 
 
 //Why only 1 person when I make the axios call?
@@ -12,17 +14,14 @@ import LogOut from "./LogOut"
 //ONly thing I can think of is to extract the token from jwt 
 function Users(props) {
 
+    const userId = props.location.state.userId
     const history = useHistory();
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
 
-
     useEffect(() => {
-
         const jwt = getJwt()
-        console.log("JWT", jwt)
         if (!jwt) {
-
             history.push("/signin")
         }
 
@@ -50,18 +49,20 @@ function Users(props) {
                 status: status
             }
             setErrors(userErrors)
-            localStorage.removeItem("token")
+            history.push("/signup")
         })
 
-    }, [])
+    }, [userId])
 
     function handleLogout(event) {
         event.preventDefault()
         localStorage.removeItem("token")
+        history.push("/signin")
     }
 
     return (
         <>
+            <Header />
             {errors && (
             <div>
                 {errors.message} {"   "}

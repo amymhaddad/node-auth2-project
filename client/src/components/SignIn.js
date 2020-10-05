@@ -4,9 +4,12 @@ import axios from "axios";
 import Header from "../common/Header"
 import SignInForm from "./SignInForm"
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify"
+
 
 //Don't I need to extract the payload from the token 
-
+//Can I store multiple tokens at once?
+//IF user provides invalid credentials, I want to let them know and then redirect. How do I redirct AFTER showing the message?
 function SignIn() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
@@ -37,21 +40,23 @@ function SignIn() {
                 const token = response.data.token
                 // const token = response.data.token.split(".")[1]
                 localStorage.setItem("token", token)
-                // toast.success("Success!")
-                history.push("/users" );
+                toast.success("Success!")
+                history.push({
+                    pathname: '/users',
+                    state: { userId: response.data.token.split(".")[1]}
+                  })
             }
+    
         })
         .catch(function(error) {
-            // debugger
             const message  = error.response.data.error
             const status = error.response.stats
             const userError = {
                 message: message, 
                 status: status
             }
-            setErrors(userError)
+            setErrors(userError) 
         })
-
     }
 
     return (

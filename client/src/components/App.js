@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <div>
-       {/* <ToastContainer autoClose={2000} hideProgressBar /> */}
+       <ToastContainer autoClose={2000} hideProgressBar />
       <Switch>
           <Route path="/signup" exact component={SignUp} />
           <Route path="/signin" exact component={SignIn} />
