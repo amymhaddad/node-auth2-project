@@ -24,7 +24,7 @@ function Users(props) {
         if (!jwt) {
             history.push("/signin")
         }
-
+        //cookie stored in header https://github.com/axios/axios/issues/943
         const url = "http://localhost:3000/api/users"
         axios({
             method: "get",
@@ -32,11 +32,11 @@ function Users(props) {
             data: jwt,
             headers: {
                 Authorization: `Bearer ${jwt}`
+
             } 
         })
         .then((response) => {
             if (response.status === 200 ) {
-                console.log(response.data)
                 return getUsers(response.data)
             }
            
@@ -61,7 +61,7 @@ function Users(props) {
     }
 
     return (
-        <>
+        <div>
             <Header />
             {errors && (
             <div>
@@ -70,19 +70,20 @@ function Users(props) {
             </div>
             )}
 
+            <ul>
             {users.map(user => (
                 <DisplayUsers 
                     id = {user.id}
                     eachUser = {user.username}
                 />
             ))}
+            </ul>
 
             <LogOut 
                 onSubmit = {handleLogout}
             />
-        </>
+        </div>
     )
-
 }
 
 export default Users;

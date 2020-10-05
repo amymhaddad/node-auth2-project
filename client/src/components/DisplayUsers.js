@@ -4,10 +4,10 @@ function DisplayUsers(props) {
 
 
     return (
-        <>
-            Hello 
+        <li>
+        
          {props.eachUser}
-        </>
+        </li>
 
     )
 }
