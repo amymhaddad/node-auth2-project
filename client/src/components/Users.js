@@ -14,6 +14,8 @@ function Users(props) {
 
     const history = useHistory();
     const [users, getUsers] = useState([])
+    const [errors, setErrors] = useState([])
+
 
     useEffect(() => {
         const jwt = getJwt()
@@ -37,7 +39,13 @@ function Users(props) {
            
         }) 
         .catch((error) => {
-            console.log('err', error)
+            const message = error.response.data.error
+            const status = error.response.status
+            const userErrors = {
+                message: message, 
+                status: status
+            }
+            setErrors(userErrors)
         })
     }, [token])
 
@@ -45,6 +53,13 @@ function Users(props) {
 
     return (
         <>
+            {errors && (
+            <div>
+                {errors.message} {"   "}
+                {errors.status}
+            </div>
+            )}
+
             {users.map(user => (
                 <DisplayUsers 
                     id = {user.id}
