@@ -7,11 +7,10 @@ import { useHistory } from "react-router-dom";
 
 
 //Why only 1 person when I make the axios call?
+//state --> users --> is NOT getting updated on call 
 //Need to send the user id via props so I can add it to teh useEffect function. Otherwise useEffect runs automatically wihtout adding my new data
 //ONly thing I can think of is to extract the token from jwt 
 function Users(props) {
-    const token = getJwt()
-
     const history = useHistory();
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
@@ -20,6 +19,7 @@ function Users(props) {
     useEffect(() => {
         const jwt = getJwt()
         if (!jwt) {
+            console.log("NO JWT")
             history.push("/signin")
         }
 
@@ -34,7 +34,8 @@ function Users(props) {
         })
         .then((response) => {
             if (response.status === 200 ) {
-                getUsers(response.data)
+                console.log(response.data)
+                return getUsers(response.data)
             }
            
         }) 
@@ -46,10 +47,12 @@ function Users(props) {
                 status: status
             }
             setErrors(userErrors)
+            localStorage.removeItem("token")
         })
-    }, [token])
+    }, [])
 
-    
+
+
 
     return (
         <>

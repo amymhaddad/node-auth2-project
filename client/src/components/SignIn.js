@@ -4,8 +4,10 @@ import axios from "axios";
 import Header from "../common/Header"
 import SignInForm from "./SignInForm"
 import { useHistory } from "react-router-dom";
+import DisplayUsers from "./DisplayUsers"
 
 function SignIn() {
+    let history = useHistory();
     const [errors, setErrors] = useState({})
     const [userCredentials, setUserCredentials] = useState({
         username: "",
@@ -18,22 +20,24 @@ function SignIn() {
     }
 
 
-    //The problem is with the loginRouter: it takes a username ONLY, which I'm trying to pass down to
     function handleSubmit(event) {
         event.preventDefault()
-        // debugger
         
         let url = "http://localhost:3000/api/login"
         axios({
             method: "post",
             url: url,
             data: userCredentials,
-            // data: userCredentials.username,
             withCredentials: true,
             headers: { 'Content-Type': 'application/json' }
            })
         .then((response) => {
-            debugger
+            if (response.status === 200)  {
+                const token = response.data.token
+                localStorage.setItem("token", token)
+                // toast.success("Success!")
+                history.push("/users" );
+            }
         })
         .catch(function(error) {
             const message  = error.response.data.error
@@ -44,7 +48,6 @@ function SignIn() {
             }
             setErrors(userError)
         })
-
 
     }
 
@@ -64,8 +67,14 @@ function SignIn() {
                     {errors.message} {"  "}
                     {errors.status}
                 </div>
-
             )}
+
+             {/* {users.map(user => (
+                <DisplayUsers 
+                    id = {user.id}
+                    eachUser = {user.username}
+                />
+            ))} */}
         </>
 
     )

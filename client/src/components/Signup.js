@@ -64,6 +64,7 @@ function SignUp() {
                 status: status
             }
             setErrors(userErrors)
+            localStorage.removeItem("token")
         })
 
     }
