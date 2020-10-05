@@ -3,15 +3,18 @@ import axios from "axios";
 import DisplayUsers from "./DisplayUsers";
 import {getJwt} from "../helpers/jwt"
 import { useHistory } from "react-router-dom";
-import { use } from "../../../server/router/usersRouter";
+
 
 
 //Why only 1 person when I make the axios call?
+//Need to send the user id via props so I can add it to teh useEffect function. Otherwise useEffect runs automatically wihtout adding my new data
+//ONly thing I can think of is to extract the token from jwt 
 function Users(props) {
+    const token = getJwt()
+
     const history = useHistory();
     const [users, getUsers] = useState([])
 
-   
     useEffect(() => {
         const jwt = getJwt()
         if (!jwt) {
@@ -28,28 +31,26 @@ function Users(props) {
             } 
         })
         .then((response) => {
-            // debugger
-            getUsers(response.data)
-
-            // if (response.status === 200 ) 
+            if (response.status === 200 ) {
+                getUsers(response.data)
+            }
+           
         }) 
         .catch((error) => {
             console.log('err', error)
         })
-    }, [])
+    }, [token])
 
     
 
     return (
         <>
-        <DisplayUsers
-
-        />
-            {/* {users.map(user => (
+            {users.map(user => (
                 <DisplayUsers 
-                    eachUser = {user}
+                    id = {user.id}
+                    eachUser = {user.username}
                 />
-            ))} */}
+            ))}
         </>
     )
 

@@ -5,7 +5,7 @@ function DisplayUsers(props) {
 
     return (
         <>
-         hello 
+         {props.eachUser}
         </>
 
     )
