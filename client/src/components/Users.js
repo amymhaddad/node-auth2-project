@@ -7,11 +7,6 @@ import LogOut from "./LogOut"
 import Header from "../common/Header"
 import { toast } from 'react-toastify';
 
-
-//Why only 1 person when I make the axios call?
-//state --> users --> is NOT getting updated on call 
-//Need to send the user id via props so I can add it to teh useEffect function. Otherwise useEffect runs automatically wihtout adding my new data
-//ONly thing I can think of is to extract the token from jwt 
 function Users(props) {
 
     const userId = props.location.state.userId
@@ -24,7 +19,6 @@ function Users(props) {
         if (!jwt) {
             history.push("/signin")
         }
-        //cookie stored in header https://github.com/axios/axios/issues/943
         const url = "http://localhost:3000/api/users"
         axios({
             method: "get",
@@ -32,7 +26,6 @@ function Users(props) {
             data: jwt,
             headers: {
                 Authorization: `Bearer ${jwt}`
-
             } 
         })
         .then((response) => {

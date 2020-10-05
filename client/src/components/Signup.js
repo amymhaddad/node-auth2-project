@@ -33,7 +33,6 @@ function SignUp() {
     function handleSubmit(event) {
 
         event.preventDefault()
-        
         const url = "http://localhost:3000/api/register"
         axios({
             method: "post",
@@ -50,7 +49,6 @@ function SignUp() {
                 // debugger
                 localStorage.setItem("token", token)
                 toast.success("Success!")
-                // history.push("/users" );
                 history.push({
                     pathname: '/users',
                     state: { userId: response.data.token.split(".")[1]}
