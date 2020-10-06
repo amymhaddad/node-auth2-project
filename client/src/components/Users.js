@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DisplayUsers from "./DisplayUsers";
+import DisplayUser from "./DisplayUser";
 import {getJwt} from "../helpers/jwt"
 import { useHistory } from "react-router-dom";
 import LogOut from "./LogOut"
@@ -8,17 +8,22 @@ import Header from "../common/Header"
 import { toast } from 'react-toastify';
 
 function Users(props) {
-
-    const userId = props.location.state.userId
     const history = useHistory();
+    //Do I need userId (I set this in the signup and signin to pass the user's token along)
+    // const userId = props.location.state.userId
+    
+    //Originally, I had the jwt inside the useEffect() but needed a way to prevent users from accessing the users page if they haven't logged in
+    const jwt = getJwt()
+    if (!jwt) {
+        toast.info("Please login or signup")
+        history.push("/signin")
+    }
+    
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
-        const jwt = getJwt()
-        if (!jwt) {
-            history.push("/signin")
-        }
+    
         const url = "http://localhost:3000/api/users"
         axios({
             method: "get",
@@ -32,7 +37,6 @@ function Users(props) {
             if (response.status === 200 ) {
                 return getUsers(response.data)
             }
-           
         }) 
         .catch((error) => {
             const message = error.response.data.error
@@ -45,7 +49,7 @@ function Users(props) {
             history.push("/Signup")
         })
 
-    }, [userId])
+    }, [jwt])
 
     function handleLogout(event) {
         event.preventDefault()
@@ -65,7 +69,7 @@ function Users(props) {
 
             <ul>
             {users.map(user => (
-                <DisplayUsers 
+                <DisplayUser 
                     id = {user.id}
                     eachUser = {user.username}
                 />

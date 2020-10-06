@@ -6,10 +6,6 @@ import SignInForm from "./SignInForm"
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify"
 
-
-//Don't I need to extract the payload from the token 
-//Can I store multiple tokens at once?
-//IF user provides invalid credentials, I want to let them know and then redirect. How do I redirct AFTER showing the message?
 function SignIn() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
@@ -38,7 +34,6 @@ function SignIn() {
         .then((response) => {
             if (response.status === 200)  {
                 const token = response.data.token
-                // const token = response.data.token.split(".")[1]
                 localStorage.setItem("token", token)
                 toast.success("Success!")
                 history.push({
@@ -61,7 +56,6 @@ function SignIn() {
 
     return (
         <>
-
             <Header />
 
             <SignInForm 
