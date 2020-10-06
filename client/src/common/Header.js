@@ -7,7 +7,7 @@ function Header() {
 
     return (
         <>
-        <NavLink activeStyle={activeStyle} to="/signup">Sign Up</NavLink>
+        <NavLink activeStyle={activeStyle} to="/Signup">Sign Up</NavLink>
         {' | '}
         <NavLink activeStyle={activeStyle} to="/signin">Sign In</NavLink>
         {' | '}

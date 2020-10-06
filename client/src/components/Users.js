@@ -42,7 +42,7 @@ function Users(props) {
                 status: status
             }
             setErrors(userErrors)
-            history.push("/signup")
+            history.push("/Signup")
         })
 
     }, [userId])

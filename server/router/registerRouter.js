@@ -24,11 +24,9 @@ registerRouter.post('/', [ verifyNewUserCredentials, handleErrors ], (req, res, 
 
 	User.addUser(newUserObject)
 		.then((newUser) => {
-			const addedUser = { username: newUser.username, department: newUser.department };
-
 			const token = newToken(newUser.id)
-			return res.status(200).json({ token, addedUser });			// 
-			// return res.status(200).json(addedUser);
+			const addedUser = { username: newUser.username, department: newUser.department };
+			return res.status(201).json({ token, addedUser });	
 		})
 		.catch((err) => next(err));
 	 

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 
-function SignUp() {
+function Signup() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
 
@@ -45,8 +45,6 @@ function SignUp() {
         .then(function(response)  {
             if (response.status === 200)  {
                 const token = response.data.token
-                // const token = token.split(".")[1]
-                // debugger
                 localStorage.setItem("token", token)
                 toast.success("Success!")
                 history.push({
@@ -92,32 +90,4 @@ function SignUp() {
     )
 }
 
-export default SignUp
-
-//Tried to add another axios call to auto log in the user
-// .then(function(response)  {
-//     if (response.status === 200)  {
-//         const username = response.data.username
-//         const password = user.password
-//         const userCredentials = {username: username, password: password}
-//         debugger
-//         const url = "http://localhost:3000/api/login"
-//         axios({
-//             method: "post",
-//             url: url,
-//             data: userCredentials,
-//             headers: {
-//                'Content-Type': 'application/json'
-//             } 
-//         })
-//         .then(function(response) {
-//             debugger
-//             // console.log("HERE", response.data)
-//             // history.push("/users");
-//         })
-//     }
-    
-// })
-
-// If the user is created successfully, take the returned token, save it to the browser's local storage and redirect the user to the /users route, where they should see the list of users.
-//I don't create the token until the login page 
+export default Signup;

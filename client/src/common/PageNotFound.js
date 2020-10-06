@@ -7,7 +7,7 @@ function PageNotFound() {
     return(
         <>  
             404 Error: page not found. 
-            <Link to="/signup"><h2>Signup</h2></Link>
+            <Link to="/Signup"><h2>Signup</h2></Link>
 
         </>
     )
