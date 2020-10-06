@@ -10,19 +10,17 @@ import { toast } from 'react-toastify';
 function Users(props) {
     const history = useHistory();
     //Do I need userId (I set this in the signup and signin to pass the user's token along)
-    // const userId = props.location.state.userId
-    
-    //Originally, I had the jwt inside the useEffect() but needed a way to prevent users from accessing the users page if they haven't logged in
-    const jwt = getJwt()
-    if (!jwt) {
-        toast.info("Please login or signup")
-        history.push("/signin")
-    }
+    const userId = props.location.state.userId
     
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
+        const jwt = getJwt()
+        if (!jwt) {
+            toast.info("Please login or signup")
+            history.push("/signin")
+        }
     
         const url = "http://localhost:3000/api/users"
         axios({
@@ -49,7 +47,7 @@ function Users(props) {
             history.push("/Signup")
         })
 
-    }, [jwt])
+    }, [userId])
 
     function handleLogout(event) {
         event.preventDefault()
