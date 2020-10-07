@@ -38,7 +38,7 @@ function SignIn() {
     //Created a sep function to handle the response. I did this in the code bc otherwise I'd have to pass in: toast, history, response
     function handleSubmit(event) {
         event.preventDefault()
-        postApiLogin()
+        postApiLogin(userCredentials)
         .then((response) => {
             if (response.status === 200)  {
                 const token = response.data.token
