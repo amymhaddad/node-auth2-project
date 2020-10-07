@@ -29,16 +29,15 @@ function Signup() {
         })
         
     }
-    //get users to show 
+  
     function handleSubmit(event) {
-        // debugger
         event.preventDefault()
         const url = "http://localhost:3000/api/register"
         axios({
             method: "post",
             url: url,
             data: user,
-            // withCredentials: true,
+            withCredentials: true,
             headers: {
                'Content-Type': 'application/json'
             } 

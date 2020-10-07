@@ -6,6 +6,7 @@ import SignInForm from "./SignInForm"
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify"
 
+
 function SignIn() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
@@ -19,10 +20,16 @@ function SignIn() {
         setUserCredentials(updateUserCredentials)
     }
 
+    function clearForm() {
+        setUserCredentials({
+            username: "",
+            password: ""
+        })
+    }
+
     //think: what does this function need? it only needs the token
     function handleSuccussfulLogin(token) {
         localStorage.setItem("token", token)
-        
         toast.success("Success!")
         history.push({
             pathname: '/users',
@@ -55,6 +62,7 @@ function SignIn() {
                 status: status
             }
             setErrors(userError) 
+            clearForm()
         })
     }
 
@@ -72,6 +80,7 @@ function SignIn() {
                 <div>
                     {errors.message} {"  "}
                     {errors.status}
+                    
                 </div>
             )}
 
