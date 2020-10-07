@@ -6,31 +6,25 @@ import { useHistory } from "react-router-dom";
 import LogOut from "./LogOut"
 import Header from "../common/Header"
 import { toast } from 'react-toastify';
+import getApiUsers from "../helpers/UsersHelper"
 
 function Users(props) {
     const history = useHistory();
-    //Do I need userId (I set this in the signup and signin to pass the user's token along)
-    const userId = props.location.state.userId
-    
-    const [users, getUsers] = useState([])
-    const [errors, setErrors] = useState([])
 
-    useEffect(() => {
-        const jwt = getJwt()
+
+    //REMOVE this from state:
+    // const userId = props.location.state.userId 
+    const jwt = getJwt()
         if (!jwt) {
             toast.info("Please login or signup")
             history.push("/signin")
         }
     
-        const url = "http://localhost:3000/api/users"
-        axios({
-            method: "get",
-            url: url,
-            data: jwt,
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            } 
-        })
+    const [users, getUsers] = useState([])
+    const [errors, setErrors] = useState([])
+
+    useEffect(() => {
+        getApiUsers(jwt)
         .then((response) => {
             if (response.status === 200 ) {
                 return getUsers(response.data)
@@ -47,7 +41,7 @@ function Users(props) {
             history.push("/Signup")
         })
 
-    }, [userId])
+    }, [jwt])
 
     function handleLogout(event) {
         event.preventDefault()

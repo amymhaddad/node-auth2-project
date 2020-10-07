@@ -5,11 +5,9 @@ import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 import postApiSignup from "../helpers/SignupHelper"
 
-
 function Signup() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
-
     const [user, addUser] = useState({
         username: "",
         password: "",
@@ -29,6 +27,7 @@ function Signup() {
         })
     }
 
+    //this extracted function is LOCAL bc it uses state. PLUS I'd have to send a lot of depenedies to the extracted funciton if I put it into a sep file
     function handleSuccessfulSignup(token) {
         localStorage.setItem("token", token)
         toast.success("Success!")
@@ -37,17 +36,9 @@ function Signup() {
             state: { userId: token.split(".")[1]}
           })
     }
-  
-    function handleSubmit(event) {
-        event.preventDefault()
-        postApiSignup(user)
-        .then(function(response)  {
-            if (response.status === 201)  handleSuccessfulSignup(response.data.token)
-            
-        })
-        .then(() => clearForm())
-        .catch(function(error)  {
-            const message = error.response.data.error
+
+    function handleUnsuccessfulSignup(error) {
+        const message = error.response.data.error
             const status = error.response.status
             const userErrors = {
                 message: message, 
@@ -55,29 +46,35 @@ function Signup() {
             }
             setErrors(userErrors)
             localStorage.removeItem("token")
+            clearForm()
+    }
+  
+    function handleSubmit(event) {
+        event.preventDefault()
+        postApiSignup(user)
+        .then(function(response)  {
+            if (response.status === 201)  handleSuccessfulSignup(response.data.token)
         })
+        .then(() => clearForm())
+        .catch((error) =>  handleUnsuccessfulSignup(error))
     }
 
     return (
 
         <>
             <Header />
-
             <SignUpForm 
                 user = {user}
                 onChange = {handleInputChange}
                 onSubmit = {handleSubmit}
             />
-
         {errors && (
             <div>
                 {errors.message} {"   "}
                 {errors.status}
             </div>
         )}
-
         </>
-
     )
 }
 
