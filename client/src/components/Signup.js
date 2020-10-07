@@ -27,33 +27,22 @@ function Signup() {
             password: "",
             department: ""
         })
-        
+    }
+
+    function handleSuccessfulSignup(token) {
+        localStorage.setItem("token", token)
+        toast.success("Success!")
+        history.push({
+            pathname: '/users',
+            state: { userId: token.split(".")[1]}
+          })
     }
   
     function handleSubmit(event) {
         event.preventDefault()
         postApiSignup(user)
-        // const url = "http://localhost:3000/api/register"
-        // axios({
-        //     method: "post",
-        //     url: url,
-        //     data: user,
-        //         withCredentials: true,
-        //     headers: {
-        //        'Content-Type': 'application/json'
-        //     } 
-        // })
         .then(function(response)  {
-            if (response.status === 201)  {
-                
-                const token = response.data.token
-                localStorage.setItem("token", token)
-                toast.success("Success!")
-                history.push({
-                    pathname: '/users',
-                    state: { userId: response.data.token.split(".")[1]}
-                  })
-            }
+            if (response.status === 201)  handleSuccessfulSignup(response.data.token)
             
         })
         .then(() => clearForm())
