@@ -13,4 +13,3 @@ function postApiLogin(userCredentials){
    
 }
 export default postApiLogin
-// module.exports = postApiLogin;

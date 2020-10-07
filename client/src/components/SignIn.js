@@ -9,10 +9,7 @@ import { toast } from "react-toastify"
 function SignIn() {
     let history = useHistory();
     const [errors, setErrors] = useState({})
-    const [userCredentials, setUserCredentials] = useState({
-        username: "",
-        password: ""
-    })
+    const [userCredentials, setUserCredentials] = useState({ username: "", password: "" })
 
     function handleChange(event)  {
         const updateUserCredentials = {...userCredentials, [event.target.name]: event.target.value}
@@ -20,12 +17,10 @@ function SignIn() {
     }
 
     function clearForm() {
-        setUserCredentials({
-            username: "",
-            password: ""
-        })
+        setUserCredentials({ username: "", password: "" })
     }
 
+    //Extracted successful axios call into its own function
     //think: what does this function need? it only needs the token
     function handleSuccussfulLogin(token) {
         localStorage.setItem("token", token)
@@ -36,6 +31,7 @@ function SignIn() {
           })
     }
 
+    //Extracted error handling for axios call into its own function
     function handleUnsuccessfulLogin(error) {
         const message  = error.response.data.error
         const status = error.response.stats
@@ -53,27 +49,9 @@ function SignIn() {
         event.preventDefault()
         postApiLogin(userCredentials)
         .then((response) => {
-            if (response.status === 200)  {
-                const token = response.data.token
-                handleSuccussfulLogin(token)
-            }
+            if (response.status === 200) handleSuccussfulLogin(response.data.token)
         })
-        .catch(function(error) {
-           handleUnsuccessfulLogin(error)
-            // setErrors(userError)
-            // clearForm()
-        //extract this as its own function 
-        // function handleErrors(errors)
-        // .catch(function(error) {
-            // const message  = error.response.data.error
-            // const status = error.response.stats
-            // const userError = {
-            //     message: message, 
-            //     status: status
-            // }
-            // setErrors(userError) 
-            // clearForm()
-        })
+        .catch((error) => handleUnsuccessfulLogin(error))
     }
 
     return (

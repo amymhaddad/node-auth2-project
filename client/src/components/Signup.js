@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Header from "../common/Header"
 import SignUpForm from "./SignUpForm"
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
+import postApiSignup from "../helpers/SignupHelper"
 
 
 function Signup() {
@@ -21,7 +21,7 @@ function Signup() {
         addUser(newUser)
     }
 
-    function clearForm() {
+    function clearForm() { 
         addUser ({
             username: "",
             password: "",
@@ -32,16 +32,17 @@ function Signup() {
   
     function handleSubmit(event) {
         event.preventDefault()
-        const url = "http://localhost:3000/api/register"
-        axios({
-            method: "post",
-            url: url,
-            data: user,
-            withCredentials: true,
-            headers: {
-               'Content-Type': 'application/json'
-            } 
-        })
+        postApiSignup(user)
+        // const url = "http://localhost:3000/api/register"
+        // axios({
+        //     method: "post",
+        //     url: url,
+        //     data: user,
+        //         withCredentials: true,
+        //     headers: {
+        //        'Content-Type': 'application/json'
+        //     } 
+        // })
         .then(function(response)  {
             if (response.status === 201)  {
                 
