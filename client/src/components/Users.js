@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import DisplayUser from "./DisplayUser";
 import {getJwt} from "../helpers/jwt"
 import { useHistory } from "react-router-dom";
@@ -8,12 +7,9 @@ import Header from "../common/Header"
 import { toast } from 'react-toastify';
 import getApiUsers from "../helpers/UsersHelper"
 
-function Users(props) {
+function Users() {
     const history = useHistory();
 
-
-    //REMOVE this from state:
-    // const userId = props.location.state.userId 
     const jwt = getJwt()
         if (!jwt) {
             toast.info("Please login or signup")
@@ -23,31 +19,30 @@ function Users(props) {
     const [users, getUsers] = useState([])
     const [errors, setErrors] = useState([])
 
-    useEffect(() => {
-        getApiUsers(jwt)
-        .then((response) => {
-            if (response.status === 200 ) {
-                return getUsers(response.data)
-            }
-        }) 
-        .catch((error) => {
-            const message = error.response.data.error
-            const status = error.response.status
-            const userErrors = {
-                message: message, 
-                status: status
-            }
+    function handleUnSuccessfulRequest(error) {
+        const message = error.response.data.error
+        const status = error.response.status
+        const userErrors = {
+            message: message, 
+            status: status
+        }
             setErrors(userErrors)
             history.push("/Signup")
-        })
-
-    }, [jwt])
+    }
 
     function handleLogout(event) {
         event.preventDefault()
         localStorage.removeItem("token")
         history.push("/signin")
     }
+
+    useEffect(() => {
+        getApiUsers(jwt)
+        .then((response) => {
+            if (response.status === 200 ) return getUsers(response.data)
+        }) 
+        .catch((error) => handleUnSuccessfulRequest(error))
+    }, [jwt])
 
     return (
         <div>

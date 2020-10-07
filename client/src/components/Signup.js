@@ -27,7 +27,6 @@ function Signup() {
         })
     }
 
-    //this extracted function is LOCAL bc it uses state. PLUS I'd have to send a lot of depenedies to the extracted funciton if I put it into a sep file
     function handleSuccessfulSignup(token) {
         localStorage.setItem("token", token)
         toast.success("Success!")
@@ -39,14 +38,14 @@ function Signup() {
 
     function handleUnsuccessfulSignup(error) {
         const message = error.response.data.error
-            const status = error.response.status
-            const userErrors = {
-                message: message, 
-                status: status
-            }
-            setErrors(userErrors)
-            localStorage.removeItem("token")
-            clearForm()
+        const status = error.response.status
+        const userErrors = {
+            message: message, 
+            status: status
+        }
+        setErrors(userErrors)
+        localStorage.removeItem("token")
+        clearForm()
     }
   
     function handleSubmit(event) {
@@ -60,7 +59,6 @@ function Signup() {
     }
 
     return (
-
         <>
             <Header />
             <SignUpForm 

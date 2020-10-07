@@ -25,10 +25,7 @@ function SignIn() {
     function handleSuccussfulLogin(token) {
         localStorage.setItem("token", token)
         toast.success("Success!")
-        history.push({
-            pathname: '/users',
-            state: { userId: token.split(".")[1]}
-          })
+        history.push('/users')
     }
 
     //Extracted error handling for axios call into its own function
